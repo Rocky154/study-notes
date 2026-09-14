@@ -1,7 +1,25 @@
 {
- "generated": "2026-09-13",
- "count": 1,
+ "generated": "2026-09-14",
+ "count": 2,
  "notes": [
+  {
+   "slug": "2026-09-14-vscode-pycharm-debug",
+   "file": "2026-09-14-vscode-pycharm-debug.md",
+   "title": "VS Code 调试速查 & PyCharm 教程对照表",
+   "date": "2026-09-14",
+   "source": "实操配置（跟黑马程序员 PyCharm 教程时用）",
+   "tags": [
+    "VS Code",
+    "PyCharm",
+    "调试",
+    "breakpoint",
+    "快捷键",
+    "Mac",
+    "工具"
+   ],
+   "summary": "跟 PyCharm 教程但用 VS Code 时的术语与位置对照，加上 Mac 调试快捷键和我改过的设置。",
+   "body": "跟视频教程学 Python 时，教程用 **PyCharm**（Windows、中文界面），我用的是 **VS Code**。\n功能完全一一对应，只是位置和叫法不同。下面是换算表。\n\n## 界面对照\n\n| PyCharm（教程里） | VS Code（我的） | 怎么打开 |\n|---|---|---|\n| **调试** 面板 | **Run and Debug** | `Shift` + `⌘` + `D` |\n| **线程和变量** | **VARIABLES** | Run and Debug 侧边栏里 |\n| **控制台** | **DEBUG CONSOLE** | 底部面板标签页 |\n| 添加监视 | **WATCH** | Run and Debug 侧边栏里 |\n| 代码右边灰字显示变量值 | **Inline Values** | 需在设置里开 `debug.inlineValues` |\n| 左侧红点断点 | 一样，点行号左边 | `fn` + `F9` |\n| 顶部调试按钮条 | 悬浮/固定工具条 | 见下方快捷键 |\n| 左侧项目文件树 | **EXPLORER** | `Shift` + `⌘` + `E` |\n\n## 调试术语中英对照\n\n| 中文 | 英文 | 说明 |\n|---|---|---|\n| 断点 | **breakpoint** | 跑到这行就暂停 |\n| 打/取消断点 | **toggle breakpoint** | 按一下打，再按取消 |\n| 调试 | **debug** / **debugger** | |\n| 开始调试 | **Start Debugging** | |\n| 单步跳过（不进函数） | **Step Over** | **调试单行最常用** |\n| 单步进入（跳进函数） | **Step Into** | |\n| 跳出当前函数 | **Step Out** | |\n| 继续到下一个断点 | **Continue** / **Resume** | |\n| 停止调试 | **Stop** | |\n| 变量面板 | **Variables** | |\n| 监视表达式 | **Watch** | |\n| 调用栈 | **Call Stack** | |\n\n## Mac 快捷键（VS Code）\n\n> Mac 上 F 键要配 `fn`，否则是调音量/亮度的系统键。\n\n| 操作 | 快捷键 |\n|---|---|\n| 打/取消断点 | `fn` + `F9` |\n| 开始调试 / 继续 | `fn` + `F5` |\n| 单步跳过 | `fn` + `F10` |\n| 单步进入 | `fn` + `F11` |\n| 跳出 | `Shift` + `fn` + `F11` |\n| 停止调试 | `Shift` + `fn` + `F5` |\n| 打开调试面板 | `Shift` + `⌘` + `D` |\n| 命令面板（万能入口） | `Shift` + `⌘` + `P` → 输入 `debug` |\n| 保存 | `⌘` + `S` |\n| 注释 / 取消注释选中行 | `⌘` + `/` |\n| 增加 / 减少缩进 | `Tab` / `Shift` + `Tab` |\n\n## 完整调试流程\n\n1. 点行号左边打 🔴 断点\n2. `Shift` + `⌘` + `D` → 点 **▷ Run and Debug** → 选 **Python Debugger** → **Python File**\n3. 程序用到 `input()` 时，在底部 **TERMINAL** 里输入（不是 Debug Console）\n4. 停在断点后看：代码旁灰字的变量值、左侧 **VARIABLES** 面板\n5. `fn` + `F10` 一行一行往下走\n\n## 我改过的设置\n\n文件位置：`~/Library/Application Support/Code/User/settings.json`\n\n| 设置项 | 效果 |\n|---|---|\n| `\"debug.inlineValues\": \"on\"` | 代码行右边直接显示变量值（PyCharm 同款效果） |\n| `\"debug.toolBarLocation\": \"docked\"` | 调试按钮固定在上方，不浮动挡代码 |\n| `\"debug.openDebug\": \"openOnDebugBreak\"` | 命中断点自动切到调试面板 |\n| `\"debug.internalConsoleOptions\": \"neverOpen\"` | 走集成终端，**`input()` 才能正常输入**（关键） |\n| `\"editor.stickyScroll.enabled\": true` | 滚动时把当前 `while` / `if` 钉在顶部，看嵌套循环很有用 |\n| `\"editor.guides.indentation\": true` | 显示缩进参考竖线 |\n| `\"editor.renderWhitespace\": \"boundary\"` | 显示多余空格，防缩进错误 |\n\n## 不用 IDE 也能调试：`breakpoint()`\n\nPython 3.7+ 自带，直接写进代码：\n\n```python\nfor i in range(1, 6):\n    breakpoint()          # 跑到这里暂停，进入 pdb\n    print(i)\n```\n\n终端出现 `(Pdb)` 提示符后可用的命令：\n\n| 命令 | 全称 | 作用 |\n|---|---|---|\n| `n` | next | 执行下一行（≈ Step Over） |\n| `s` | step | 进入函数（≈ Step Into） |\n| `c` | continue | 继续到下一个断点 |\n| `l` | list | 看当前代码位置 |\n| `p 变量名` | print | 打印变量值 |\n| `w` | where | 看调用栈 |\n| `q` | quit | 退出 |\n\n## 最朴素但最常用：print 调试\n\n英文叫 **print debugging**。到处插 `print()` 看变量：\n\n```python\nfor i in range(1, 6):\n    print(\"现在 i =\", i)      # 调完删掉或注释\n    print(\"*\" * i)\n```\n\n专业程序员也天天用。初学阶段先把 `print()` 调试用熟，再学断点完全来得及。\n"
+  },
   {
    "slug": "2026-09-13-python-chapter1",
    "file": "2026-09-13-python-chapter1.md",
